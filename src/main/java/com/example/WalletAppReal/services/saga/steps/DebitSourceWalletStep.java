@@ -7,6 +7,7 @@ import com.example.WalletAppReal.services.saga.SagaContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -18,6 +19,7 @@ public class DebitSourceWalletStep implements ISagaStep {
     private final WalletRepository walletRepository;
 
     @Override
+    @Transactional
     public boolean execute(SagaContext sagaContext) {
         Long fromWalletId = sagaContext.getLong("fromWalletId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
@@ -35,6 +37,7 @@ public class DebitSourceWalletStep implements ISagaStep {
     }
 
     @Override
+    @Transactional
     public boolean compensate(SagaContext sagaContext) {
         Long fromWalletId = sagaContext.getLong("fromWalletId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
