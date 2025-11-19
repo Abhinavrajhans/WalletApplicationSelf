@@ -1,0 +1,83 @@
+dataSources:
+  realshard1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/realshard1?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root@123
+
+  realshard2:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/realshard2?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root@123
+
+rules:
+  - !SHARDING
+    tables:
+      user:
+        actualDataNodes: realshard${1..2}.user
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: db-inline
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+      wallet:
+        actualDataNodes: realshard${1..2}.wallet
+        databaseStrategy:
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: db-inline-user-id
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+      transaction:
+        actualDataNodes: realshard${1..2}.transaction
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: db-inline
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+      saga_instance:
+        actualDataNodes: realshard${1..2}.saga_instance
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: db-inline
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+      saga_step:
+        actualDataNodes: realshard${1..2}.saga_step
+        databaseStrategy:
+          standard:
+            shardingColumn: id
+            shardingAlgorithmName: db-inline
+        keyGenerateStrategy:
+          column: id
+          keyGeneratorName: snowflake
+
+
+
+    shardingAlgorithms:
+      db-inline:
+        type: INLINE
+        props:
+          algorithm-expression: realshard${id % 2 + 1}
+      db-inline-user-id:
+        type: INLINE
+        props:
+          algorithm-expression: realshard${user_id % 2 + 1}
+
+
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+
+props:
+  sql-show: true
