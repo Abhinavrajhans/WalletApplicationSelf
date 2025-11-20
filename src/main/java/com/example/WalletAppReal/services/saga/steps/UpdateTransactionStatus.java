@@ -8,6 +8,8 @@ import com.example.WalletAppReal.services.saga.SagaContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.example.WalletAppReal.services.saga.steps.SagaStepFactory.SagaStepType;
+
 
 @Service
 @Slf4j
@@ -51,6 +53,6 @@ public class UpdateTransactionStatus implements ISagaStep {
 
     @Override
     public String getStepName() {
-        return "UpdateTransactionStatus";
+        return SagaStepType.UPDATE_TRANSACTION_STATUS_STEP.toString();
     }
 }

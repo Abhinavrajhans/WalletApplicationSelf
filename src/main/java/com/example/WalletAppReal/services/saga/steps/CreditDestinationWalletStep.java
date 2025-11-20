@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.WalletAppReal.services.saga.steps.SagaStepFactory.SagaStepType;
 
 import java.math.BigDecimal;
 
@@ -70,6 +71,6 @@ public class CreditDestinationWalletStep implements ISagaStep {
 
     @Override
     public String getStepName() {
-        return "CreditDestinationWalletStep";
+        return SagaStepType.CREDIT_DESTINATION_WALLET_STEP.toString();
     }
 }
