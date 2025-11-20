@@ -20,7 +20,7 @@ public class Wallet extends BaseModel{
     private Long userId;
 
     @Column(name="is_active",nullable=false)
-    private Boolean isactive;
+    private Boolean isActive;
 
     @Column(name="balance",nullable=false)
     @Builder.Default
