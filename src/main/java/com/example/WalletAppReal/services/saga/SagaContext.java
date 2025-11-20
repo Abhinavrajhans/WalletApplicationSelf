@@ -1,9 +1,15 @@
 package com.example.WalletAppReal.services.saga;
 
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Builder
 public class SagaContext {
 
     private Map<String,Object> data = new HashMap<>();
