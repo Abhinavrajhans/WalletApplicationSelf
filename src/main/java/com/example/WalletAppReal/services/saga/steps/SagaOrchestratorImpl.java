@@ -175,9 +175,6 @@ public class SagaOrchestratorImpl implements ISagaOrchestrator {
 
         List<SagaStep> completedSagaSteps = sagaStepRepository.findCompletedStepsBySagaInstanceId(sagaInstanceId);
 
-        // ✅ Reverse order for compensation (LIFO)
-        Collections.reverse(completedSagaSteps);
-
         boolean allCompensated = true;
         for (SagaStep sagaStep : completedSagaSteps) {
             boolean compensated = this.compensateStep(sagaInstanceId, sagaStep.getStepName());
