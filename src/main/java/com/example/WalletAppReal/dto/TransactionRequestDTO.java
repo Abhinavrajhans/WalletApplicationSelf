@@ -19,17 +19,16 @@ import java.math.BigDecimal;
 @Builder
 public class TransactionRequestDTO {
 
-    @NotNull(message="fromWalletId is required")
-    private Long fromWalletId;
+    @NotNull(message="fromUserId is required")
+    private Long fromUserId;
 
-    @NotNull(message="toWalletId is required")
-    private Long toWalletId;
+    @NotNull(message="toUserId is required")
+    private Long toUserId;
 
     @NotNull(message="amount is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "amount must be greater than zero")
     private BigDecimal amount;
 
-    @NotBlank(message="fromWalletId is required")
+    @NotBlank(message="description is required")
     private String description;
-
 }

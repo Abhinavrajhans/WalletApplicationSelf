@@ -12,12 +12,9 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     //let's say if want all the transaction of a particular wallet
-    List<Transaction> findByFromWalletId(Long fromWalletId);
+    List<Transaction> findByFromUserId(Long fromUserId);
     // all the credit transaction
-    List<Transaction> findByToWalletId(Long toWalletId);
-    // all the transaction
-    @Query("SELECT t FROM Transaction t WHERE t.fromWalletId = :walletId OR t.toWalletId = :walletId")
-    List<Transaction> findByWalletId(@Param("walletId") Long walletId);
+    List<Transaction> findByToUserId(Long toUserId);
 
     //find a transaction by status
     List<Transaction> findByStatus(TransactionStatus transactionStatus);

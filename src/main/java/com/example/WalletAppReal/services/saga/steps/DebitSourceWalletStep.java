@@ -22,11 +22,11 @@ public class DebitSourceWalletStep implements ISagaStep {
     @Override
     @Transactional
     public boolean execute(SagaContext sagaContext) {
-        Long fromWalletId = sagaContext.getLong("fromWalletId");
+        Long fromUserId = sagaContext.getLong("fromUserId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
-        log.info("Debiting source wallet {} with amount {}", fromWalletId, amount);
-        Wallet wallet = walletRepository.findByIdWithLock(fromWalletId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+        log.info("Debiting source wallet for user {} with amount {}", fromUserId, amount);
+        Wallet wallet = walletRepository.findByUserIdWithLock(fromUserId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found for user"));
         log.info("Wallet Fetched with balance {}", wallet.getBalance());
         sagaContext.put("originalSourceWalletBalance",wallet.getBalance());
         wallet.debit(amount);
@@ -40,12 +40,12 @@ public class DebitSourceWalletStep implements ISagaStep {
     @Override
     @Transactional
     public boolean compensate(SagaContext sagaContext) {
-        Long fromWalletId = sagaContext.getLong("fromWalletId");
+        Long fromUserId = sagaContext.getLong("fromUserId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
-        log.info("Compensating source wallet {} with amount {}", fromWalletId, amount);
+        log.info("Compensating Debit source wallet for user {} with amount {}", fromUserId, amount);
 
-        Wallet wallet = walletRepository.findByIdWithLock(fromWalletId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+        Wallet wallet = walletRepository.findByUserIdWithLock(fromUserId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found for user"));
 
         log.info("Wallet Fetched with balance {}", wallet.getBalance());
         sagaContext.put("sourceWalletBalanceBeforeCreditCompensation",wallet.getBalance());

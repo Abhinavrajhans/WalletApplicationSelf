@@ -19,16 +19,17 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Transactional
-    public Transaction createTransaction(TransactionRequestDTO  transactionRequestDTO) {
-        log.info("Creating Transaction from wallet {}  to wallet with amount {} and description {}",
-                transactionRequestDTO.getFromWalletId(),
-                transactionRequestDTO.getToWalletId(),
+    public Transaction createTransaction(TransactionRequestDTO transactionRequestDTO) {
+        log.info("Creating Transaction from user {}  to user {} with amount {} and description {}",
+                transactionRequestDTO.getFromUserId(),
+                transactionRequestDTO.getToUserId(),
+                transactionRequestDTO.getAmount(),
                 transactionRequestDTO.getDescription()
         );
 
         Transaction transaction = Transaction.builder()
-                .fromWalletId(transactionRequestDTO.getFromWalletId())
-                .toWalletId(transactionRequestDTO.getToWalletId())
+                .fromUserId(transactionRequestDTO.getFromUserId())
+                .toUserId(transactionRequestDTO.getToUserId())
                 .description(transactionRequestDTO.getDescription())
                 .amount(transactionRequestDTO.getAmount())
                 .build();
@@ -41,16 +42,13 @@ public class TransactionService {
         return transactionRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Transaction not found"));
     }
-    public List<Transaction> getTransactionByWalletId(Long walletId) {
-        return transactionRepository.findByWalletId(walletId);
+
+    public List<Transaction> getTransactionByFromUserId(Long fromUserId) {
+        return transactionRepository.findByFromUserId(fromUserId);
     }
 
-    public List<Transaction> getTransactionByFromWalletId(Long fromWalletId) {
-        return transactionRepository.findByFromWalletId(fromWalletId);
-    }
-
-    public List<Transaction> getTransactionByToWalletId(Long toWalletId) {
-        return transactionRepository.findByToWalletId(toWalletId);
+    public List<Transaction> getTransactionByToUserId(Long toUserId) {
+        return transactionRepository.findByToUserId(toUserId);
     }
 
     public List<Transaction> getTransactionBySagaInstanceId(Long sagaInstanceId) {

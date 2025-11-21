@@ -25,13 +25,13 @@ public class CreditDestinationWalletStep implements ISagaStep {
     @Transactional
     public boolean execute(SagaContext sagaContext) {
         // Step 1: Get the destination wallet id from the context
-        Long toWalletId = sagaContext.getLong("toWalletId");
+        Long toUserId = sagaContext.getLong("toUserId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
-        log.info("Crediting destination wallet {} with amount {}", toWalletId, amount);
+        log.info("Crediting destination wallet for user {} with amount {}", toUserId, amount);
 
-        // Step 2: Fetch the destination wallet from the database with a lock
-        Wallet wallet = walletRepository.findByIdWithLock(toWalletId)
-                .orElseThrow(() -> new RuntimeException("Wallet not found with id: " + toWalletId));
+        Wallet wallet = walletRepository.findByUserIdWithLock(toUserId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found for userId:"+toUserId));
+
         log.info("Wallet fetched with balance {}", wallet.getBalance());
         sagaContext.put("OriginalDestinationWalletBalance", wallet.getBalance());
 
@@ -49,13 +49,14 @@ public class CreditDestinationWalletStep implements ISagaStep {
     @Transactional
     public boolean compensate(SagaContext sagaContext) {
         // Step 1: Get the destination wallet id from the context
-        Long toWalletId = sagaContext.getLong("toWalletId");
+        Long toUserId = sagaContext.getLong("toUserId");
         BigDecimal amount = sagaContext.getBigDecimal("amount");
-        log.info("Compensating credit of destination wallet {} with amount {}", toWalletId, amount);
+        log.info("Crediting destination wallet for user {} with amount {}", toUserId, amount);
 
         // Step 2: Fetch the destination wallet from the database with a lock
-        Wallet wallet = walletRepository.findByIdWithLock(toWalletId)
-                        .orElseThrow(() -> new RuntimeException("Wallet not found with id: " + toWalletId));
+        Wallet wallet = walletRepository.findByUserIdWithLock(toUserId)
+                .orElseThrow(() -> new RuntimeException("Wallet not found for userId:"+toUserId));
+        
         sagaContext.put("DestinationWalletBalanceBeforeCreditCompensation",wallet.getBalance());
         log.info("Wallet fetched with balance {}", wallet.getBalance());
 

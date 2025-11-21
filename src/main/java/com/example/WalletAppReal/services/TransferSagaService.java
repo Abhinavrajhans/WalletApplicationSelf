@@ -22,11 +22,11 @@ public class TransferSagaService {
     private final ISagaOrchestrator sagaOrchestrator;
 
     @Transactional
-    public Long initiateTransfer( TransactionRequestDTO transactionRequestDTO) {
+    public Long initiateTransfer(TransactionRequestDTO transactionRequestDTO) {
 
-        log.info("Initiating transfer from wallet {} to wallet {} with amount {} and description {}",
-                transactionRequestDTO.getFromWalletId(),
-                transactionRequestDTO.getToWalletId(),
+        log.info("Initiating transfer from user {} to user {} with amount {} and description {}",
+                transactionRequestDTO.getFromUserId(),
+                transactionRequestDTO.getToUserId(),
                 transactionRequestDTO.getAmount(),
                 transactionRequestDTO.getDescription()
         );
@@ -35,10 +35,11 @@ public class TransferSagaService {
         SagaContext sagaContext = SagaContext.builder()
                 .data(Map.ofEntries(
                         Map.entry("transactionId", transaction.getId()),
-                        Map.entry("fromWalletId", transactionRequestDTO.getFromWalletId()),
-                        Map.entry("toWalletId", transactionRequestDTO.getToWalletId()),
+                        Map.entry("fromUserId", transactionRequestDTO.getFromUserId()),
+                        Map.entry("toUserId", transactionRequestDTO.getToUserId()),
                         Map.entry("amount", transactionRequestDTO.getAmount()),
-                        Map.entry("description", transactionRequestDTO.getDescription())
+                        Map.entry("description", transactionRequestDTO.getDescription()),
+                        Map.entry("destinationTransactionStatus", "SUCCESS")
                 ))
                 .build();
         Long sagaInstanceId = sagaOrchestrator.startSaga(sagaContext);
