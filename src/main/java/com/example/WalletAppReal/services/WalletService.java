@@ -1,6 +1,7 @@
 package com.example.WalletAppReal.services;
 
 
+import com.example.WalletAppReal.adapters.WalletAdapter;
 import com.example.WalletAppReal.dto.CreditWalletRequestDTO;
 import com.example.WalletAppReal.dto.DebitWalletRequestDTO;
 import com.example.WalletAppReal.dto.WalletRequestDTO;
@@ -24,11 +25,7 @@ public class WalletService {
 
     public Wallet createWallet(WalletRequestDTO walletRequestDTO){
         log.info("Creating Wallet for user {}",walletRequestDTO.getUserId());
-        Wallet wallet = Wallet.builder()
-                .userId(walletRequestDTO.getUserId())
-                .isActive(true)
-                .build();
-
+        Wallet wallet = WalletAdapter.toEntity(walletRequestDTO);
         wallet = walletRepository.save(wallet);
         log.info("Wallet created for user {} with id {}",wallet.getUserId(),wallet.getId());
         return wallet;

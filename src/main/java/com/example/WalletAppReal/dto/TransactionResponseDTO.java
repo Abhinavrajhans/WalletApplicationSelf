@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,4 +24,5 @@ public class TransactionResponseDTO {
     private TransactionType type;
     private String description;
     private Long sagaInstanceId;
+    private Date createdAt;
 }
