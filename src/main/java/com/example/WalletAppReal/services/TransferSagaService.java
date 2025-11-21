@@ -63,7 +63,7 @@ public class TransferSagaService {
                     return;
                 }
             }
-            sagaOrchestrator.failSaga(sagaInstanceId);
+            sagaOrchestrator.completeSaga(sagaInstanceId);
             log.info("Successfully executed transfer SagaInstance with Id {} ", sagaInstanceId);
         }
         catch(Exception e) {

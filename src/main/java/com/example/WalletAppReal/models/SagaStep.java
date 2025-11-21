@@ -22,7 +22,7 @@ public class SagaStep extends BaseModel{
     @Column(name="status", nullable=false)
     private StepStatus status;
 
-    @Column(name="error message")
+    @Column(name="error_message")
     private String errorMessage;
 
     @Column(name="step_data" , columnDefinition = "json")

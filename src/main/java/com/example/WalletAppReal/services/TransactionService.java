@@ -1,5 +1,6 @@
 package com.example.WalletAppReal.services;
 
+import com.example.WalletAppReal.adapters.TransactionAdapter;
 import com.example.WalletAppReal.dto.TransactionRequestDTO;
 import com.example.WalletAppReal.models.Transaction;
 import com.example.WalletAppReal.models.TransactionStatus;
@@ -27,12 +28,7 @@ public class TransactionService {
                 transactionRequestDTO.getDescription()
         );
 
-        Transaction transaction = Transaction.builder()
-                .fromUserId(transactionRequestDTO.getFromUserId())
-                .toUserId(transactionRequestDTO.getToUserId())
-                .description(transactionRequestDTO.getDescription())
-                .amount(transactionRequestDTO.getAmount())
-                .build();
+        Transaction transaction = TransactionAdapter.toEntity(transactionRequestDTO);
         Transaction savedTransaction = transactionRepository.save(transaction);
         log.info("Transaction created successfully with Id {}", savedTransaction.getId());
         return savedTransaction;
