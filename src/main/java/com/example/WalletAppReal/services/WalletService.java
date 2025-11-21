@@ -5,7 +5,6 @@ import com.example.WalletAppReal.adapters.WalletAdapter;
 import com.example.WalletAppReal.dto.CreditWalletRequestDTO;
 import com.example.WalletAppReal.dto.DebitWalletRequestDTO;
 import com.example.WalletAppReal.dto.WalletRequestDTO;
-import com.example.WalletAppReal.dto.WalletResponseDTO;
 import com.example.WalletAppReal.models.Wallet;
 import com.example.WalletAppReal.repostiory.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -31,36 +29,40 @@ public class WalletService {
         return wallet;
     }
 
-    public Wallet getWalletById(Long id){
-        log.info("Getting Wallet for wallet id {}",id);
-        return  walletRepository.findById(id).orElseThrow(()-> new RuntimeException("Wallet not found"));
+    public Wallet getWalletByUserId(Long userId) {
+        log.info("Getting wallet for user id {}", userId);
+        return walletRepository.findByUserId(userId)
+                .orElseThrow(()-> new RuntimeException("Wallet for user not found"));
     }
 
-
     @Transactional
-    public void debit(Long userId , DebitWalletRequestDTO debitWalletRequestDTO){
-        log.info("Debiting Amount {} for user {}",debitWalletRequestDTO.getAmount(),userId);
-        Wallet wallet=walletRepository.findByIdWithLock(userId)
-                        .orElseThrow(()-> new RuntimeException("Wallet not found"));
+    public void debit(Long userId, DebitWalletRequestDTO debitWalletRequestDTO){
+        log.info("Debiting Amount {} for user {}", debitWalletRequestDTO.getAmount(), userId);
+
+        Wallet wallet = walletRepository.findByUserIdWithLock(userId)
+                .orElseThrow(()-> new RuntimeException("Wallet not found"));
+
         wallet.debit(debitWalletRequestDTO.getAmount());
         walletRepository.save(wallet);
-        log.info("Debit successful for user {} with id {}",userId,wallet.getId());
+        log.info("Debit successful for user {} with wallet id {}", userId, wallet.getId());
     }
 
     @Transactional
-    public void credit(Long userId , CreditWalletRequestDTO creditWalletRequestDTO){
-        log.info("Credit Amount {} for user {}",creditWalletRequestDTO.getAmount(),userId);
-        Wallet wallet=walletRepository.findByIdWithLock(userId)
+    public void credit(Long userId, CreditWalletRequestDTO creditWalletRequestDTO){
+        log.info("Credit Amount {} for user {}", creditWalletRequestDTO.getAmount(), userId);
+
+        Wallet wallet = walletRepository.findByUserIdWithLock(userId)
                 .orElseThrow(()-> new RuntimeException("Wallet not found"));
+
         wallet.credit(creditWalletRequestDTO.getAmount());
         walletRepository.save(wallet);
-        log.info("Credit successful for user {} with id {}",userId,wallet.getId());
+        log.info("Credit successful for user {} with wallet id {}", userId, wallet.getId());
     }
 
-    public BigDecimal getWalletBalance(Long walletId){
-        log.info("Getting wallet balance for wallet id {}",walletId);
-        BigDecimal balance= getWalletById(walletId).getBalance();
-        log.info("Wallet balance successfully fetched for wallet id {}",walletId);
+    public BigDecimal getWalletBalanceByUserId(Long userId){
+        log.info("Getting wallet balance for user id {}", userId);
+        BigDecimal balance = getWalletByUserId(userId).getBalance();
+        log.info("Wallet balance successfully fetched for user id {}", userId);
         return balance;
     }
 }

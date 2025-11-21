@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-
 @RestController
 @RequestMapping("/api/v1/wallet")
 @Slf4j
@@ -33,35 +32,35 @@ public class WalletController {
         return ResponseEntity.status(HttpStatus.CREATED).body(walletResponseDTO);
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<WalletResponseDTO> getWalletById(@PathVariable Long id)
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<WalletResponseDTO> getWalletByUserId(@PathVariable Long userId)
     {
-        Wallet wallet = walletService.getWalletById(id);
+        Wallet wallet = walletService.getWalletByUserId(userId);
         WalletResponseDTO walletResponseDTO = WalletAdapter.toDTO(wallet);
         return ResponseEntity.status(HttpStatus.OK).body(walletResponseDTO);
     }
 
-    @GetMapping("/{id}/balance")
-    public ResponseEntity<BigDecimal> getWalletBalance(@PathVariable Long id)
+    @GetMapping("/user/{userId}/balance")
+    public ResponseEntity<BigDecimal> getWalletBalance(@PathVariable Long userId)
     {
-        BigDecimal balance = walletService.getWalletBalance(id);
+        BigDecimal balance = walletService.getWalletBalanceByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(balance);
     }
 
-    @PostMapping("/{userId}/debit")
-    public ResponseEntity<WalletResponseDTO> debitWallet(@PathVariable Long userId, @Valid @RequestBody DebitWalletRequestDTO  debitWalletRequestDTO)
+    @PostMapping("/user/{userId}/debit")
+    public ResponseEntity<WalletResponseDTO> debitWallet(@PathVariable Long userId, @Valid @RequestBody DebitWalletRequestDTO debitWalletRequestDTO)
     {
-        walletService.debit(userId,debitWalletRequestDTO);
-        Wallet wallet =  walletService.getWalletById(userId);
+        walletService.debit(userId, debitWalletRequestDTO);
+        Wallet wallet = walletService.getWalletByUserId(userId);
         WalletResponseDTO walletResponseDTO = WalletAdapter.toDTO(wallet);
         return ResponseEntity.status(HttpStatus.OK).body(walletResponseDTO);
     }
 
-    @PostMapping("/{userId}/credit")
-    public ResponseEntity<WalletResponseDTO> creditWallet(@PathVariable Long  userId, @Valid @RequestBody CreditWalletRequestDTO creditWalletRequestDTO)
+    @PostMapping("/user/{userId}/credit")
+    public ResponseEntity<WalletResponseDTO> creditWallet(@PathVariable Long userId, @Valid @RequestBody CreditWalletRequestDTO creditWalletRequestDTO)
     {
-        walletService.credit(userId,creditWalletRequestDTO);
-        Wallet wallet =  walletService.getWalletById(userId);
+        walletService.credit(userId, creditWalletRequestDTO);
+        Wallet wallet = walletService.getWalletByUserId(userId);
         WalletResponseDTO walletResponseDTO = WalletAdapter.toDTO(wallet);
         return ResponseEntity.status(HttpStatus.OK).body(walletResponseDTO);
     }
