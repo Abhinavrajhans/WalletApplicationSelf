@@ -1,7 +1,9 @@
 package com.example.WalletAppReal.controller;
 
 
+import com.example.WalletAppReal.adapters.TransactionAdapter;
 import com.example.WalletAppReal.dto.TransactionRequestDTO;
+import com.example.WalletAppReal.dto.TransactionResponseDTO;
 import com.example.WalletAppReal.models.Transaction;
 import com.example.WalletAppReal.services.TransactionService;
 import com.example.WalletAppReal.services.TransferSagaService;
@@ -25,9 +27,9 @@ public class TransactionController {
     private final TransferSagaService transferSagaService;
 
     @PostMapping
-    public ResponseEntity<TransactionRequestDTO> createTransction(@Valid @RequestBody TransactionRequestDTO transactionRequestDTO) {
+    public ResponseEntity<TransactionResponseDTO> createTransction(@Valid @RequestBody TransactionRequestDTO transactionRequestDTO) {
         log.info("Creating transaction {}", transactionRequestDTO);
         Long sagaInstanceId = transferSagaService.initiateTransfer(transactionRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(transactionRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(TransactionAdapter.toDTO(sagaInstanceId));
     }
 }

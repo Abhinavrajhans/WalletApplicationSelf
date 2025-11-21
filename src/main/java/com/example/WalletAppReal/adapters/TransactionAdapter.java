@@ -23,10 +23,10 @@ public class TransactionAdapter {
                 .description(transactionRequestDTO.getDescription())
                 .build();
     }
-    public static TransactionResponseDTO  toDTO(Transaction transaction)
+    public static TransactionResponseDTO  toDTO(Long sagaInstanceId)
     {
         return TransactionResponseDTO.builder()
-                .sagaInstanceId(transaction.getSagaInstanceId())
+                .sagaInstanceId(sagaInstanceId)
                 .build();
     }
 }
