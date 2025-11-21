@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Table(name="wallet")
 public class Wallet extends BaseModel{
 
-    @Column(name="user_id",nullable=false,unique=true)
+    @Column(name="user_id",nullable=false,unique=true,updatable = false)
     private Long userId;
 
     @Column(name="is_active",nullable=false)

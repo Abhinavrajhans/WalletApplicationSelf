@@ -20,6 +20,7 @@ public class WalletAdapter {
                 .id(wallet.getId())
                 .userId(wallet.getUserId())
                 .isActive(wallet.getIsActive())
+                .balance(wallet.getBalance())
                 .createdAt(wallet.getCreatedAt())
                 .build();
     }
