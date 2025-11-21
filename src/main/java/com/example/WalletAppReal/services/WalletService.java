@@ -36,15 +36,12 @@ public class WalletService {
         return  walletRepository.findById(id).orElseThrow(()-> new RuntimeException("Wallet not found"));
     }
 
-    public Wallet getWalletByUserId(Long userId) {
-        log.info("Getting wallet for user id {}", userId);
-        return walletRepository.findByUserId(userId).orElseThrow(()-> new RuntimeException("wallet for user not Found"));
-    }
 
     @Transactional
     public void debit(Long userId , DebitWalletRequestDTO debitWalletRequestDTO){
         log.info("Debiting Amount {} for user {}",debitWalletRequestDTO.getAmount(),userId);
-        Wallet wallet=getWalletById(userId);
+        Wallet wallet=walletRepository.findByIdWithLock(userId)
+                        .orElseThrow(()-> new RuntimeException("Wallet not found"));
         wallet.debit(debitWalletRequestDTO.getAmount());
         walletRepository.save(wallet);
         log.info("Debit successful for user {} with id {}",userId,wallet.getId());
@@ -53,7 +50,8 @@ public class WalletService {
     @Transactional
     public void credit(Long userId , CreditWalletRequestDTO creditWalletRequestDTO){
         log.info("Credit Amount {} for user {}",creditWalletRequestDTO.getAmount(),userId);
-        Wallet wallet=getWalletById(userId);
+        Wallet wallet=walletRepository.findByIdWithLock(userId)
+                .orElseThrow(()-> new RuntimeException("Wallet not found"));
         wallet.credit(creditWalletRequestDTO.getAmount());
         walletRepository.save(wallet);
         log.info("Credit successful for user {} with id {}",userId,wallet.getId());

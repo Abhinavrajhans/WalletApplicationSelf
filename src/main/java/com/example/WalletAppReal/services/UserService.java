@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public User createUser(UserRequestDTO userRequestDTO) {
         log.info("Creating user {}", userRequestDTO.getName());
@@ -28,6 +28,15 @@ public class UserService {
     public User getUserById(Long id) {
         log.info("Retrieving user {}", id);
         User user = userRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("User not found"));
+        log.info("Retrieved user {} with name {}", user.getId(),user.getName());
+        return user;
+    }
+
+    public User getUserByName(String name)
+    {
+        log.info("Retrieving user {}", name);
+        User user = userRepository.findByName(name)
                 .orElseThrow(()-> new RuntimeException("User not found"));
         log.info("Retrieved user {} with name {}", user.getId(),user.getName());
         return user;

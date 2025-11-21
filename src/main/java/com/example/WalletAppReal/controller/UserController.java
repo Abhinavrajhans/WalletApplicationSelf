@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 @Slf4j
@@ -31,6 +33,13 @@ public class UserController {
     @GetMapping("/id/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id){
         User user = userService.getUserById(id);
+        UserResponseDTO userResponseDTO = UserAdapter.toDTO(user);
+        return ResponseEntity.ok(userResponseDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<UserResponseDTO> getAllUser(@RequestParam String name){
+        User user = userService.getUserByName(name);
         UserResponseDTO userResponseDTO = UserAdapter.toDTO(user);
         return ResponseEntity.ok(userResponseDTO);
     }
