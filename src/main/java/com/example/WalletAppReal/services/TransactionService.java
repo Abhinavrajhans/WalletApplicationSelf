@@ -28,6 +28,10 @@ public class TransactionService {
                 transactionRequestDTO.getDescription()
         );
 
+        if (transactionRequestDTO.getFromUserId().equals(transactionRequestDTO.getToUserId())) {
+            throw new IllegalArgumentException("Cannot transfer to the same user");
+        }
+
         Transaction transaction = TransactionAdapter.toEntity(transactionRequestDTO);
         Transaction savedTransaction = transactionRepository.save(transaction);
         log.info("Transaction created successfully with Id {}", savedTransaction.getId());
