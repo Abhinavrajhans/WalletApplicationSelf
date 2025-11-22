@@ -6,7 +6,7 @@ import com.example.WalletAppReal.dto.CreditWalletRequestDTO;
 import com.example.WalletAppReal.dto.DebitWalletRequestDTO;
 import com.example.WalletAppReal.dto.WalletRequestDTO;
 import com.example.WalletAppReal.models.Wallet;
-import com.example.WalletAppReal.repostiory.WalletRepository;
+import com.example.WalletAppReal.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

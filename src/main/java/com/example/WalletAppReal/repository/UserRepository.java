@@ -1,4 +1,4 @@
-package com.example.WalletAppReal.repostiory;
+package com.example.WalletAppReal.repository;
 
 import com.example.WalletAppReal.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

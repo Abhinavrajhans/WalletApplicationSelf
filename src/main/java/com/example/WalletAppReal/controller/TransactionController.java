@@ -27,7 +27,7 @@ public class TransactionController {
     private final TransferSagaService transferSagaService;
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDTO> createTransction(@Valid @RequestBody TransactionRequestDTO transactionRequestDTO) {
+    public ResponseEntity<TransactionResponseDTO> createTransction(@Valid @RequestBody TransactionRequestDTO transactionRequestDTO) throws InterruptedException {
         log.info("Creating transaction {}", transactionRequestDTO);
         Long sagaInstanceId = transferSagaService.initiateTransfer(transactionRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(TransactionAdapter.toDTO(sagaInstanceId));

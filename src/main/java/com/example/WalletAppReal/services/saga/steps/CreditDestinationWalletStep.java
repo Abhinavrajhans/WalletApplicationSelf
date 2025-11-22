@@ -1,7 +1,7 @@
 package com.example.WalletAppReal.services.saga.steps;
 
 import com.example.WalletAppReal.models.Wallet;
-import com.example.WalletAppReal.repostiory.WalletRepository;
+import com.example.WalletAppReal.repository.WalletRepository;
 import com.example.WalletAppReal.services.saga.ISagaStep;
 import com.example.WalletAppReal.services.saga.SagaContext;
 import lombok.RequiredArgsConstructor;

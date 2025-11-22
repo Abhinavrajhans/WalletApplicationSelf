@@ -4,7 +4,7 @@ import com.example.WalletAppReal.adapters.TransactionAdapter;
 import com.example.WalletAppReal.dto.TransactionRequestDTO;
 import com.example.WalletAppReal.models.Transaction;
 import com.example.WalletAppReal.models.TransactionStatus;
-import com.example.WalletAppReal.repostiory.TransactionRepository;
+import com.example.WalletAppReal.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -62,10 +62,4 @@ public class TransactionService {
         log.info("Transaction updated successfully with Id {}", transaction.getId());
     }
 
-    public void updateTransactionStatus(Long transactionId, TransactionStatus transactionStatus) {
-        Transaction transaction = getTransactionById(transactionId);
-        transaction.setStatus(transactionStatus);
-        transactionRepository.save(transaction);
-        log.info("Transaction Status updated successfully with Id {} with status {}", transaction.getId() ,  transactionStatus);
-    }
 }

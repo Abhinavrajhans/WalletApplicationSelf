@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserResponseDTO> getAllUser(@RequestParam String name){
+    public ResponseEntity<UserResponseDTO> getUserByName(@RequestParam String name){
         User user = userService.getUserByName(name);
         UserResponseDTO userResponseDTO = UserAdapter.toDTO(user);
         return ResponseEntity.ok(userResponseDTO);

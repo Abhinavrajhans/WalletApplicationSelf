@@ -1,4 +1,4 @@
-package com.example.WalletAppReal.repostiory;
+package com.example.WalletAppReal.repository;
 
 import com.example.WalletAppReal.models.SagaInstance;
 import org.springframework.data.jpa.repository.JpaRepository;

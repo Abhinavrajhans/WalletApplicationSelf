@@ -1,10 +1,8 @@
-package com.example.WalletAppReal.repostiory;
+package com.example.WalletAppReal.repository;
 
 import com.example.WalletAppReal.models.Transaction;
 import com.example.WalletAppReal.models.TransactionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

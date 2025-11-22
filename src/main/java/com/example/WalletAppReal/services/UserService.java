@@ -3,12 +3,10 @@ package com.example.WalletAppReal.services;
 import com.example.WalletAppReal.adapters.UserAdapter;
 import com.example.WalletAppReal.dto.UserRequestDTO;
 import com.example.WalletAppReal.models.User;
-import com.example.WalletAppReal.repostiory.UserRepository;
+import com.example.WalletAppReal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
