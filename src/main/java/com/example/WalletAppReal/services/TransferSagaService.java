@@ -22,7 +22,7 @@ public class TransferSagaService {
     private final ISagaOrchestrator sagaOrchestrator;
 
     @Transactional
-    public Long initiateTransfer(TransactionRequestDTO transactionRequestDTO) throws InterruptedException {
+    public Long initiateTransfer(TransactionRequestDTO transactionRequestDTO) {
 
         log.info("Initiating transfer from user {} to user {} with amount {} and description {}",
                 transactionRequestDTO.getFromUserId(),
@@ -44,7 +44,6 @@ public class TransferSagaService {
                 .build();
         Long sagaInstanceId = sagaOrchestrator.startSaga(sagaContext);
         log.info("Saga Instance created with id {} ", sagaInstanceId);
-        Thread.sleep(10000); // Wait 10 seconds - kill app here!
         transactionService.updateTransactionWithSagaInstanceId(transaction.getId(), sagaInstanceId);
         executeTransferSaga(sagaInstanceId);
         return sagaInstanceId;
